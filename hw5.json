@@ -4,12 +4,12 @@
   "Description": "AWS template to  a non-root user and a role for contractors ",
 
   "Resources":{
-
+      
       "NonRootUser" :{
         "Type": "AWS::IAM::User",
         "Properties": {
           "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AdministratorAccess"],
-          "UserName": "FroggyFresh"
+          "UserName": "FroggyFreshAdmin"
         }
       },
     
@@ -30,7 +30,7 @@
             ]
           },
           "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess", "arn:aws:iam::aws:policy/IAMReadOnlyAccess" ],
-          "RoleName": "Contractorss"
+          "RoleName": "contractors"
         }
       }
     }
