@@ -1,30 +1,37 @@
- { 
-   {
-     "Type": "AWS::IAM::User",
-     "Properties": {
-       "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AdministratorAccess"],
-       "UserName": "FroggyFresh"
-     }
-   },
- 
-   {
-     "Type": "AWS::IAM::Role",
-     "Properties": {
-       "AssumeRolePolicyDocument":{
-         "Version": "2012-10-17",
-         "Statement": [
-           {
-             "Effect": "Allow",
-             "Principal": {
-               "AWS": "arn:aws:iam::204087959985:root"
-             },
-             "Action": "sts:AssumeRole",
-             "Condition": {}
-           }
-         ]
-       },
-       "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess", "arn:aws:iam::aws:policy/IAMReadOnlyAccess" ],
-       "RoleName": "Contractorss"
-     }
-   }
+{ 
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "AWS template to  a non-root user and a role for contractors ",
+
+  "Resources":{
+
+      "NonRootUser" :{
+        "Type": "AWS::IAM::User",
+        "Properties": {
+          "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AdministratorAccess"],
+          "UserName": "FroggyFresh"
+        }
+      },
+    
+      "ContractorsRole": {
+        "Type": "AWS::IAM::Role",
+        "Properties": {
+          "AssumeRolePolicyDocument":{
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "AWS": "arn:aws:iam::204087959985:root"
+                },
+                "Action": "sts:AssumeRole",
+                "Condition": {}
+              }
+            ]
+          },
+          "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess", "arn:aws:iam::aws:policy/IAMReadOnlyAccess" ],
+          "RoleName": "Contractorss"
+        }
+      }
+    }
  }
