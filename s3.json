@@ -5,26 +5,32 @@
 
   "Resources":{
       
-      "S3Bucket" {
-        "Type" : "AWS::S3::Bucket",
-        "Properties" : {
-          "AccessControl" : String,
-          "AccelerateConfiguration" : AccelerateConfiguration,
-          "AnalyticsConfigurations" : [ AnalyticsConfiguration, ... ],
-          "BucketEncryption" : BucketEncryption,
-          "BucketName" : String,
-          "CorsConfiguration" : CorsConfiguration,
-          "InventoryConfigurations" : [ InventoryConfiguration, ... ],
-          "LifecycleConfiguration" : LifecycleConfiguration,
-          "LoggingConfiguration" : LoggingConfiguration,
-          "MetricsConfigurations" : [ MetricsConfiguration, ... ]
-          "NotificationConfiguration" : NotificationConfiguration,
-          "PublicAccessBlockConfiguration" : PublicAccessBlockConfiguration,
-          "ReplicationConfiguration" : ReplicationConfiguration,
-          "Tags" : [ Resource Tag, ... ],
-          "VersioningConfiguration" : VersioningConfiguration,
-          "WebsiteConfiguration" : WebsiteConfiguration
-        }
+    "S3Bucket": {
+      "Type" : "AWS::S3::Bucket",
+      "Properties" : {
+        "AccessControl" : "PublicRead",
+        "BucketName" : "HomeworkBucket"
       }
+    },
+    "S3FullRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument":{
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "arn:aws:iam::843984047001:user/ddrudge"
+              },
+              "Action": "sts:AssumeRole",
+              "Condition": {}
+            }
+          ]
+        },
+        "ManagedPolicyArns": ["arn:aws:iam::aws:policy/AmazonS3FullAccess"],
+        "RoleName": "s3Full"
+      }
+    }
   }
 }
