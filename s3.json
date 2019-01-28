@@ -1,21 +1,30 @@
-{
-  "Type" : "AWS::S3::Bucket",
-  "Properties" : {
-    "AccessControl" : String,
-    "AccelerateConfiguration" : AccelerateConfiguration,
-    "AnalyticsConfigurations" : [ AnalyticsConfiguration, ... ],
-    "BucketEncryption" : BucketEncryption,
-    "BucketName" : String,
-    "CorsConfiguration" : CorsConfiguration,
-    "InventoryConfigurations" : [ InventoryConfiguration, ... ],
-    "LifecycleConfiguration" : LifecycleConfiguration,
-    "LoggingConfiguration" : LoggingConfiguration,
-    "MetricsConfigurations" : [ MetricsConfiguration, ... ]
-    "NotificationConfiguration" : NotificationConfiguration,
-    "PublicAccessBlockConfiguration" : PublicAccessBlockConfiguration,
-    "ReplicationConfiguration" : ReplicationConfiguration,
-    "Tags" : [ Resource Tag, ... ],
-    "VersioningConfiguration" : VersioningConfiguration,
-    "WebsiteConfiguration" : WebsiteConfiguration
+{ 
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "AWS template to  a non-root user and a role for contractors ",
+
+  "Resources":{
+      
+      "S3Bucket" {
+        "Type" : "AWS::S3::Bucket",
+        "Properties" : {
+          "AccessControl" : String,
+          "AccelerateConfiguration" : AccelerateConfiguration,
+          "AnalyticsConfigurations" : [ AnalyticsConfiguration, ... ],
+          "BucketEncryption" : BucketEncryption,
+          "BucketName" : String,
+          "CorsConfiguration" : CorsConfiguration,
+          "InventoryConfigurations" : [ InventoryConfiguration, ... ],
+          "LifecycleConfiguration" : LifecycleConfiguration,
+          "LoggingConfiguration" : LoggingConfiguration,
+          "MetricsConfigurations" : [ MetricsConfiguration, ... ]
+          "NotificationConfiguration" : NotificationConfiguration,
+          "PublicAccessBlockConfiguration" : PublicAccessBlockConfiguration,
+          "ReplicationConfiguration" : ReplicationConfiguration,
+          "Tags" : [ Resource Tag, ... ],
+          "VersioningConfiguration" : VersioningConfiguration,
+          "WebsiteConfiguration" : WebsiteConfiguration
+        }
+      }
   }
 }
