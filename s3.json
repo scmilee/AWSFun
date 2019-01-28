@@ -12,6 +12,7 @@
         "BucketName" : "HomeworkBucket"
       }
     },
+    
     "S3FullRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
