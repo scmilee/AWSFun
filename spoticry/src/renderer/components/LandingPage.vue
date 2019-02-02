@@ -11,23 +11,17 @@
         </b-form-input>
         <b-button @click="setS3instance" variant="primary">Confirm</b-button>
       </b-form-group>
-      
+      <b-button @click="choosePath" variant="danger">Choose File or Folder</b-button>
       <b-form-group id="exampleInputGroup2"
-                    label="Edit File Name:"
+                    label="Edit File Name(optional):"
                     label-for="exampleInput2">
-        <b-button @click="choosePath" variant="danger">Choose File or Folder</b-button>
+        
         <b-form-input id="exampleInput2"
                       type="text"
                       v-model="form.fileName"
                       required
                       >
         </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleGroup4">
-        <b-form-checkbox-group v-model="form.checked" id="exampleChecks">
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
       </b-form-group>
       <b-button @click="upload" variant="primary">Upload</b-button>
      
