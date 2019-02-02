@@ -1,5 +1,5 @@
 # AWSFun
-## A Repo to hold AWS-cloudformation templates for Cloud development
+## A Repo to hold AWS-cloudformation templates for Cloud development, and an Vue-Electron app to interface with S3. 
 
 To run :
 ``` 
