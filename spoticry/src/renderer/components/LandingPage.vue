@@ -1,47 +1,84 @@
 <template>
-  <div id="wrapper">
-    <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
-    <main>
-      <div class="left-side">
-        <span class="title">
-          Welcome to your new project!
-        </span>
-        <system-information></system-information>
-      </div>
-
-      <div class="right-side">
-        <div class="doc">
-          <div class="title">Getting Started</div>
-          <p>
-            electron-vue comes packed with detailed documentation that covers everything from
-            internal configurations, using the project structure, building your application,
-            and so much more.
-          </p>
-          <button @click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')">Read the Docs</button><br><br>
-        </div>
-        <div class="doc">
-          <div class="title alt">Other Documentation</div>
-          <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
-          <button class="alt" @click="open('https://vuejs.org/v2/guide/')">Vue.js</button>
-        </div>
-      </div>
-    </main>
+  <div>
+    <b-form v-if="show">
+      <b-form-group id="exampleInputGroup1"
+                    label="Desired S3 bucket:"
+                    label-for="exampleInput1"
+                      >
+        <b-form-input id="exampleInput1"
+                      v-model="form.bucketName"
+                      placeholder="Enter Bucket Name">
+        </b-form-input>
+        <b-button @click="setS3instance" variant="primary">Confirm</b-button>
+      </b-form-group>
+      
+      <b-form-group id="exampleInputGroup2"
+                    label="Edit File Name:"
+                    label-for="exampleInput2">
+        <b-button @click="choosePath" variant="danger">Choose File or Folder</b-button>
+        <b-form-input id="exampleInput2"
+                      type="text"
+                      v-model="form.fileName"
+                      required
+                      >
+        </b-form-input>
+      </b-form-group>
+      <b-form-group id="exampleGroup4">
+        <b-form-checkbox-group v-model="form.checked" id="exampleChecks">
+          <b-form-checkbox value="me">Check me out</b-form-checkbox>
+          <b-form-checkbox value="that">Check that out</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+      <b-button @click="upload" variant="primary">Upload</b-button>
+     
+    </b-form>
   </div>
 </template>
 
 <script>
-  import SystemInformation from './LandingPage/SystemInformation'
-
+  import spotify from '../lib/Spotify'
+  
   export default {
-    name: 'landing-page',
-    components: { SystemInformation },
+    data () {
+      return {
+        s3Instance: null,
+        form: {
+          bucketName: '',
+          fileName: '',
+          fullPath: '',
+          checked: []
+        },
+        show: true
+      }
+    },
     methods: {
-      open (link) {
-        this.$electron.shell.openExternal(link)
+      onSubmit (evt) {
+        evt.preventDefault();
+        alert(JSON.stringify(this.form));
+      },
+
+      upload (evt) {
+        evt.preventDefault();
+        this.s3Instance.directoryCheck(this.form.fullPath, this.form.fileName)
+      },
+      choosePath (evt) {
+        evt.preventDefault();
+        this.s3Instance.choosePath().then((paths)=> {
+
+          this.form.fullPath = paths[0]
+          const parts = paths[0].split("/");
+          const fileName = parts.pop();
+          this.form.fileName = fileName;
+        })
+      },
+      setS3instance (evt) {
+        evt.preventDefault();
+        this.s3Instance = new spotify(this.form.bucketName);
       }
     }
   }
 </script>
+
 
 <style>
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');

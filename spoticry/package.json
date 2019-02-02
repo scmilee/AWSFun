@@ -10,7 +10,7 @@
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
-    "dev": "node .electron-vue/dev-runner.js",
+    "dev": "AWS_PROFILE=s3Full node .electron-vue/dev-runner.js",
     "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src test",
     "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src test",
     "pack": "npm run pack:main && npm run pack:renderer",
@@ -57,9 +57,12 @@
   "dependencies": {
     "aws-sdk": "^2.395.0",
     "axios": "^0.18.0",
+    "material-design-icons-iconfont": "^4.0.4",
+    "uuid": "^3.3.2",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.4.4",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.0"
   },
