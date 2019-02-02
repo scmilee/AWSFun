@@ -4,6 +4,7 @@
 To run :
 ``` 
 git clone git@github.com:scmilee/AWSFun.git 
+cd spoticry
 yarn
 yarn dev
 ```
