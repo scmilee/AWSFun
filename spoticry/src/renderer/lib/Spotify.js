@@ -64,7 +64,7 @@ export default class Spotify {
         if (err) {
           console.log(err)
         }
-        alert('Successfully uploaded photo.');
+        alert('Successfully uploaded stuff.');
         return data
       });
     }) 
