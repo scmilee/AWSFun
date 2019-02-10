@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import spotifyS3 from './lib/Spotify.js'
 const express = require('express');
+const cors = require('cors');
 const express_graphql = require('express-graphql');
 const { buildSchema } = require('graphql');
 
@@ -25,6 +26,7 @@ const root = {
     songs: getSongs
 };
 const app = express();
+app.use(cors())
 
 app.use('/graphql', express_graphql({
     schema: schema,
