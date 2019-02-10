@@ -34,7 +34,7 @@ export default class Spotify {
 
         this.bucket.getSignedUrl('getObject', params, (err,url)=> {
           if(err) console.log(err);
-          
+
           const resObj = {
             key: object.Key,
             url: url
@@ -52,6 +52,7 @@ export default class Spotify {
 
   getSongs = async(args) => {
     const objectList = await this.listObjects(args);
+    console.log(objectList)
     return await this.signUrls(objectList);
   }
 

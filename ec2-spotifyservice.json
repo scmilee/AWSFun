@@ -25,7 +25,8 @@
                                 ". ~/.nvm/nvm.sh\n",
                                 "nvm install 10\n",
                                 "sudo yum install git -y\n",
-                                "git clone https://github.com/scmilee/AWSFun.git\n",
+                                "HOME=/root\n",
+                                "sudo git clone https://github.com/scmilee/AWSFun.git\n",
                                 "cd AWSFun/spotifyservice\n",
                                 "npm install\n",
                                 "npm start\n"
