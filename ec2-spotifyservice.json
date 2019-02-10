@@ -9,6 +9,9 @@
             "Properties" : {
                 "ImageId" : "ami-035be7bafff33b6b6",
                 "InstanceType" : "t2.micro",
+                "IamInstanceProfile" :  {
+                    "Ref" : "s3FullProfile"
+                  },
                 "KeyName" : "spotifyservice",
                 "SecurityGroups" : [ "spotifyService" ],
                 "UserData": {
@@ -27,6 +30,15 @@
                     }
                 }
             }
+        },
+        "s3FullProfile" : {
+        "Type" : "AWS::IAM::InstanceProfile",
+        "Properties" : {
+            "Path" : "/",
+            "Roles" : [
+               "s3Full"
+            ]
+        }
         }
     }
 }
