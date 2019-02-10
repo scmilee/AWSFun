@@ -7,7 +7,7 @@
         "SpotifyService":{
             "Type" : "AWS::EC2::Instance",
             "Properties" : {
-                "ImageId" : "ami-035be7bafff33b6b6",
+                "ImageId" : "ami-017f4f754d01dde76",
                 "InstanceType" : "t2.micro",
                 "IamInstanceProfile" :  {
                     "Ref" : "s3FullProfile"
@@ -24,10 +24,11 @@
                                 "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash\n",
                                 ". ~/.nvm/nvm.sh\n",
                                 "nvm install 10\n",
-                                "sudo yum install git -y\n",
+                                "yum install git -y\n",
                                 "HOME=/root\n",
-                                "sudo git clone https://github.com/scmilee/AWSFun.git\n",
-                                "cd AWSFun/spotifyservice\n",
+                                "git clone https://github.com/scmilee/AWSFun.git\n",
+                                "cd AWSFun/spotifyservice/\n",
+                                "touch lol.tx\n",
                                 "npm install\n",
                                 "npm start\n"
                             ]

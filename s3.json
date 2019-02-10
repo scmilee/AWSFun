@@ -22,7 +22,8 @@
             {
               "Effect": "Allow",
               "Principal": {
-                "AWS": "arn:aws:iam::843984047001:user/ddrudge"
+                "AWS": "arn:aws:iam::843984047001:user/ddrudge",
+                "Service": "ec2.amazonaws.com"
               },
               "Action": "sts:AssumeRole",
               "Condition": {}

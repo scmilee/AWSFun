@@ -31,7 +31,6 @@ export default class Spotify {
       return new Promise(resolve => {
 
         const params = {Key: object.Key}
-
         this.bucket.getSignedUrl('getObject', params, (err,url)=> {
           if(err) console.log(err);
 
@@ -52,7 +51,6 @@ export default class Spotify {
 
   getSongs = async(args) => {
     const objectList = await this.listObjects(args);
-    console.log(objectList)
     return await this.signUrls(objectList);
   }
 
