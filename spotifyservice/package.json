@@ -4,14 +4,22 @@
   "description": "api for s3 buckets holding songs",
   "main": "server.js",
   "dependencies": {
+    "aws-sdk": "^2.400.0",
+    "babel-polyfill": "^6.26.0",
     "express": "^4.16.4",
     "express-graphql": "^0.7.1",
     "graphql": "^14.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "nodemon": "^1.18.10"
+  },
   "scripts": {
+    "build": "babel src -d dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "npm run build && node dist/server.js"
   },
   "author": "dylan drudge",
   "license": "MIT"
