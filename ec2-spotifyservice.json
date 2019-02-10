@@ -24,7 +24,11 @@
                                 "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash\n",
                                 ". ~/.nvm/nvm.sh\n",
                                 "nvm install 10\n",
-                                "sudo yum install git -y\n"
+                                "sudo yum install git -y\n",
+                                "git clone https://github.com/scmilee/AWSFun.git\n",
+                                "cd AWSFun/spotifyservice\n",
+                                "npm install\n",
+                                "npm start\n"
                             ]
                         ]
                     }
