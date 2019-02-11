@@ -1,6 +1,4 @@
 import AWS from 'aws-sdk'
-const util = require('util');
-
 
 export default class Spotify {
   constructor (bucketName='dylandrudgeshomeworky') {
@@ -24,10 +22,7 @@ export default class Spotify {
   }
 
   signUrls = async(data) => {
-
-    const contents = data.Contents
-
-    const urls = contents.map( object => {
+    const urls = data.map( object => {
       return new Promise(resolve => {
 
         const params = {Key: object.Key}
@@ -42,16 +37,29 @@ export default class Spotify {
         })
       })
     })
+
     const res = await Promise.all(urls)
     .catch(e => {
       console.error(e);
     })
+    console.log(res)
     return res
     }
 
   getSongs = async(args) => {
     const objectList = await this.listObjects(args);
-    return await this.signUrls(objectList);
+    let refinedList = [];
+
+    objectList.Contents.map(object => {
+      const key = object.Key
+      const extension = key.split('.').pop();
+
+      if (extension === "mp3") {
+        refinedList.push(object)
+      }
+
+    })
+    return await this.signUrls(refinedList);
   }
 
 }

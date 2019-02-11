@@ -18,8 +18,7 @@ const schema = buildSchema(`
 `);
 
 const getSongs = async(args) => {
-    const result = await spotty.getSongs(args)
-    return result
+    return await spotty.getSongs(args); 
 }
 
 const root = {
