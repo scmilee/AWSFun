@@ -6,9 +6,12 @@ import { Query } from "react-apollo";
 const GET_SONGS = gql`
 {
    songs {
-     key
-     url
-   }
+      key
+      name
+      album
+      artist
+      url
+    }
 }
 `;
 

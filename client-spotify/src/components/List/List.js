@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import AudioPlayer from "react-h5-audio-player";
 
 
 const ListPage = (props) => {
@@ -13,10 +13,8 @@ class List extends Component {
     super(props);
 
     this.state = {
-      catagoryId: this.props.catagoryId,
+      albums: this.props.albums,
       currentId: '',
-      currentTitle: '',
-      currentBody: '',
       showModal: false,
       modalType: null,
       loaded: false
@@ -24,10 +22,11 @@ class List extends Component {
   }
 
   componentWillReceiveProps(props) {
-
+    const { albums } = props;
+    this.setState({ albums:albums })
   }
   componentDidMount() {
-   
+    this.setState({ loaded: true });
   }
 
   onChange = event => {
@@ -41,7 +40,6 @@ class List extends Component {
   render() {
     return (
       <div>
-        <button className={'button is-primary'} onClick={this.createModal}>Create New</button>
         <div><br/></div>
         {this.state.loaded ? this.renderList() : null}
         {this.state.showModal? this.renderModal(this.state.modalType): null}
@@ -50,45 +48,24 @@ class List extends Component {
   }
 
   renderList = () => {
-    const { data } = this.state;
-    let hasFiles = false
+    const { albums } = this.state;
 
-    if(data!== null ){
+    if(albums !== null ){
     return (
       <div>
-        {Object.keys(data).map((key, i) => {
-
-          if(data[key].files !== undefined){hasFiles = true};
+        {Object.keys(albums).map((key, i) => {
           return (
             <article key={i} className="message is-dark">
               <div className="message-header">
-                {data[key].title}
-                <button className="delete" onClick={() => this.deleteOne(key)}></button>
+                {key}
               </div>
               <div className="message-body">
-                  {data[key].body + '\n'}
-                <div className='level is-pulled-right'>
-                { hasFiles ? 
-                  Object.keys(data[key].files).map((fileKey, ind)=> {
-                    const filePath = data[key].files[fileKey];
-                    const pathParts = filePath.split("/");
-                    const fileName = pathParts.pop();
-                    return (
-                        <button key={ind} id={filePath} className={'button is-info is-outlined is-pulled-left'} onClick={(e) => this.fileDownload(e, fileName)}>{fileName}</button>
-                    )
-                  })
-                : ""
-                }
-                  <div className='file is-link'>
-                    <label className='file-label'>
-                      <input className='file-input ' type='file' onChange={(e)=> this.fileUpload(e, key)}/>
-                      <span className='file-cta'>
-                        <span className='file-label is-outlined'>Attach file</span>
-                      </span>
-                    </label>
-                  </div>
-                  <button className={'button is-success is-outlined is-pulled-right'} onClick={() => this.updateModal(key)}>Update</button>
-                </div>
+              {albums[key].map((song,i) => {
+                //const audio = new Audio(song.url);
+                return(
+                  <li key={i}>{song.name} <AudioPlayer src={song.url}/></li>
+                )
+              })}
               </div>
               
             </article>

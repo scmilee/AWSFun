@@ -1,27 +1,53 @@
 import React, { Component } from 'react'
 import List from '../List/List'
-const CatagoryPage = (props) => {
+const ArtistPage = (props) => {
     return (
-        <Catagory {...props}/>
+        <Artist {...props}/>
     )
 }
 
-class Catagory extends Component {
+class Artist extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      currentCatagory: null,
-      currentTitle: '',
+      currentArtist: null,
       modalType: null,
       loaded: false,
-      data: this.props.data.songs
+      urls: this.props.data.songs,
+      artists: [],
+      albums: [],
+      songs: []
     };
+  
+  }
+
+  parseSongInfo(songs){
+    let ar = {}
+
+    songs.map(song => {
+      if (ar[song.artist] === undefined) ar[song.artist] = {}
+      if (ar[song.artist][song.album] === undefined) ar[song.artist][song.album] = []
+      
+      let songDirectory = ar[song.artist][song.album];
+
+      songDirectory.push({
+      name : song.name,
+      url: song.url
+      })
+      return true
+    })
+
+    this.setState({
+      ...this.state,
+      loaded:true,
+      artists: ar
+    })
   }
 
   
   componentDidMount() {
-    
+    this.parseSongInfo(this.props.data.songs)
   }
 
   onChange = event => {
@@ -33,9 +59,8 @@ class Catagory extends Component {
       <section className="main-content columns is-fullheight ">
         <aside className="menu column section is-3 ">
           <p className="menu-label">
-            Catagories
+            Artists
           </p>
-          <button className={'button is-primary'} onClick={this.createModal}>New Catagory</button>
           <ul className="menu-list">
             {this.state.loaded ? this.renderList() : null}
             {this.state.showModal? this.renderModal(this.state.modalType): null}
@@ -43,24 +68,29 @@ class Catagory extends Component {
           <div><br/></div>
         </aside>
         <div className='column is-8'>
-          {this.state.currentCatagory !== null ? <List {...this.props} catagoryId={this.state.currentCatagory} /> : <div></div>}
+          {this.state.currentArtist !== null ? 
+          <List 
+            {...this.props} 
+            albums={this.state.artists[this.state.currentArtist]}
+          /> 
+          : <div></div>}
         </div>
       </section>
     )
   }
 
   renderList = () => {
-    const { data } = this.state;
+    const { artists } = this.state;
     
-    if(data !== null ){
+    if( artists !== null ){
     return (
-      Object.keys(data).map((key, i) => {
+      Object.keys(artists).map((key, i )=> {
+        
         return (
           <div className='level'key={i}>
-            <li className='is-info button'id= {key} onClick={() => this.setCatagory(key)}>
-              {data[key].Key}  
+            <li className='is-info button'id= {key} onClick={() => this.setArtist(key)}>
+              {key}  
             </li>
-            <button className="delete" onClick={() => this.deleteOne(key)}></button>
           </div>
         )
       })
@@ -92,9 +122,9 @@ class Catagory extends Component {
       );
     };
 
-  setCatagory = (key) => {
+  setArtist = (key) => {
     
-    this.setState({currentCatagory: key},this.forceUpdate())
+    this.setState({currentArtist: key},this.forceUpdate())
   }
   createModal = () =>{
     
@@ -110,14 +140,7 @@ class Catagory extends Component {
     this.setState({...this.state, showModal: false})
   }
 
-  createOne = () => {
-    
-  };
-
-  deleteOne = (key) => {
-    
-  };
 
 }
 
-export default CatagoryPage;
+export default ArtistPage;
