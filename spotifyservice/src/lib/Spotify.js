@@ -26,13 +26,11 @@ export default class Spotify {
       return new Promise(resolve => {
 
         const params = {Key: object.Key}
-        this.bucket.getSignedUrl('getObject', params, (err,url)=> {
+        this.bucket.getSignedUrl('getObject', params, (err,url) => {
           if(err) console.log(err);
 
-          const resObj = {
-            key: object.Key,
-            url: url
-          }
+          const resObj = this.buildReturnObject(object.Key,url)
+
           resolve(resObj);
         })
       })
@@ -42,10 +40,21 @@ export default class Spotify {
     .catch(e => {
       console.error(e);
     })
-    console.log(res)
     return res
     }
 
+  buildReturnObject = (key, url) => {
+    let split = key.split('/')
+    let resObj = {}
+
+    resObj.key = key
+    resObj.url = url
+    resObj.name = split[2]
+    resObj.album = split[1]
+    resObj.artist = split[0]
+
+    return resObj
+  }
   getSongs = async(args) => {
     const objectList = await this.listObjects(args);
     let refinedList = [];

@@ -9,13 +9,40 @@ const spotty = new spotifyS3();
 
 const schema = buildSchema(`
     type Query {
-        songs(title: String): [Url]
+        songs(title: String): [Song]
     }
-    type Url {
-        key: String
+    type Song {
+        key: String,
+        name: String,
+        album: String,
+        artist: String,
         url: String
     }
 `);
+//for testing 
+// let songs = [
+//     {
+//         key: "lolkey",
+//         name: "lols",
+//         album: "lol the album",
+//         artist: "lol the singer",
+//         url: "lol"
+//     },
+//     {
+//         key: "lolkey",
+//         name: "lols2",
+//         album: "lol the album",
+//         artist: "lol the singer",
+//         url: "lol"
+//     },
+//     {
+//         key: "lolkey",
+//         name: "lols",
+//         album: "lmao the album",
+//         artist: "lmao the singer",
+//         url: "lol"
+//     }
+// ]
 
 const getSongs = async(args) => {
     return await spotty.getSongs(args); 
