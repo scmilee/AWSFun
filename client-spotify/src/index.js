@@ -8,7 +8,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql"
+  uri: "http://ec2-54-175-168-197.compute-1.amazonaws.com:3000/graphql"
 });
 
 //followed the tutorial below for some best practices involving HOC's and firebase
