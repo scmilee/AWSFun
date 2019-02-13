@@ -7,28 +7,29 @@
         "SpotifyService":{
             "Type" : "AWS::EC2::Instance",
             "Properties" : {
-                "ImageId" : "ami-017f4f754d01dde76",
+                "ImageId" : "ami-035be7bafff33b6b6",
                 "InstanceType" : "t2.micro",
                 "IamInstanceProfile" :  {
                     "Ref" : "s3FullProfile"
                   },
-                "KeyName" : "spotifyservice",
+                "KeyName" : "spotifyservice2",
                 "SecurityGroups" : [ "spotifyService" ],
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [
                             "",
                             [
-                                "#!/bin/bash\n",
+                                "#!/bin/bash -xe\n",
                                 "yum update -y\n",
-                                "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.0/install.sh | bash\n",
-                                ". ~/.nvm/nvm.sh\n",
+                                "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash\n",
+                                "export NVM_DIR=\"$HOME/.nvm\"\n",
+                                "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"\n",
+                                "[ -s \"$NVM_DIR/bash_completion\" ] && . \"$NVM_DIR/bash_completion\"\n",
                                 "nvm install 10\n",
                                 "yum install git -y\n",
                                 "HOME=/root\n",
                                 "git clone https://github.com/scmilee/AWSFun.git\n",
                                 "cd AWSFun/spotifyservice/\n",
-                                "touch lol.tx\n",
                                 "npm install\n",
                                 "npm start\n"
                             ]
