@@ -55,19 +55,15 @@ export default class Spotify {
 
     return resObj
   }
+
   getSongs = async(args) => {
     const objectList = await this.listObjects(args);
     let refinedList = [];
 
     objectList.Contents.map(object => {
-      const key = object.Key
-      const extension = key.split('.').pop();
-
-      if (extension === "mp3") {
-        refinedList.push(object)
-      }
-
+      if (object.Key.endsWith('.mp3'))  refinedList.push(object)
     })
+    
     return await this.signUrls(refinedList);
   }
 
