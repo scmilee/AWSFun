@@ -1,0 +1,47 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    
+    "Description": "AWS template to create a DDB table named music",
+    
+    "Resources":{
+        
+        "musicDDB" :{
+            "Type" : "AWS::DynamoDB::Table",
+            "Properties" : {
+                "AttributeDefinitions" : [ 
+                    {
+                        "AttributeName" : "genre",
+                        "AttributeType" : "s"
+                    },
+                    {
+                        "AttributeName" : "artist#album#song",
+                        "AttributeType" : "s"
+                    },
+                    {
+                        "AttributeName" : "artist",
+                        "AttributeType" : "s"
+                    },
+                    {
+                        "AttributeName" : "album",
+                        "AttributeType" : "s"
+                    },
+                    {
+                        "AttributeName" : "song",
+                        "AttributeType" : "s"
+                    }
+                ],
+                "KeySchema" : [ 
+                    {
+                        "AttributeName" : "genre",
+                        "KeyType" : "HASH"
+                    },
+                    {
+                        "AttributeName" : "artist#album#song",
+                        "KeyType" : "range"
+                    }
+                ],
+                "TableName" : "music"
+            }
+        }
+    }
+}     
