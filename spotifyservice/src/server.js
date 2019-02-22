@@ -1,17 +1,16 @@
 import 'babel-polyfill'
+import {root} from './resolver/rootResolver'
+import {schema} from './schema/schema'
 const express = require('express');
 const cors = require('cors');
 const express_graphql = require('express-graphql');
-
-const schema = require('./schema/schema');
-const rootResolver = require('./resolver/rootResolver')
 
 const app = express();
 app.use(cors())
 
 app.use('/graphql', express_graphql({
     schema: schema,
-    rootValue: rootResolver,
+    rootValue: root,
     graphiql: true
 }));
 
