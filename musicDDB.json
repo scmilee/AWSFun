@@ -11,23 +11,11 @@
                 "AttributeDefinitions" : [ 
                     {
                         "AttributeName" : "genre",
-                        "AttributeType" : "s"
+                        "AttributeType" : "S"
                     },
                     {
                         "AttributeName" : "artist#album#song",
-                        "AttributeType" : "s"
-                    },
-                    {
-                        "AttributeName" : "artist",
-                        "AttributeType" : "s"
-                    },
-                    {
-                        "AttributeName" : "album",
-                        "AttributeType" : "s"
-                    },
-                    {
-                        "AttributeName" : "song",
-                        "AttributeType" : "s"
+                        "AttributeType" : "S"
                     }
                 ],
                 "KeySchema" : [ 
@@ -37,9 +25,13 @@
                     },
                     {
                         "AttributeName" : "artist#album#song",
-                        "KeyType" : "range"
+                        "KeyType" : "RANGE"
                     }
                 ],
+                "ProvisionedThroughput" : {
+                    "ReadCapacityUnits" : 5,
+                    "WriteCapacityUnits" : 5
+                 },
                 "TableName" : "music"
             }
         }
