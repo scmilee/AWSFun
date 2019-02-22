@@ -11,7 +11,8 @@ export default class Spotify {
 
     this.ddb = new AWS.DynamoDB({
       region: 'us-east-1',
-      apiVersion: '2012-08-10'
+      apiVersion: '2012-08-10',
+      
     });
   }
 
@@ -70,11 +71,39 @@ export default class Spotify {
     return await this.signUrls(refinedList);
   }
 
+  readDynamo = (args) => {
+    const genre = args.genre;
+
+    let params = {
+      KeyConditionExpression: "genre = :v1" ,
+      ExpressionAttributeValues: {
+        ":v1": {
+          S: genre
+        }
+      }, 
+      TableName: "music"
+    };
+    //if a sort key was passed in with the query
+    //change the key expression to include a beginswith
+    //to check and see that the specified genre has a sortkey that begins with the passed in sort key
+    //then assign the needed variables to parse since back to back #'s cause errors
+    //this allows all queries to use this function by slowly narrowing sortkey scope
+    if (args.sortKey){
+      params.KeyConditionExpression = "genre = :v1 and begins_with(#aas,:v2)"
+      params.ExpressionAttributeValues[":v2"] = {S: args.sortKey};
+      params.ExpressionAttributeNames = {
+        "#aas":"artist#album#song"
+      };
+    }
+
+    return this.ddb.query(params).promise()
+  }
+
   getGenres = async(args) => {
     
   }
   getArtistsByGenre = async(args) => {
-
+    console.log(await this.readDynamo(args))
   }
   getAlbumByArtist = async(args) => {
     
