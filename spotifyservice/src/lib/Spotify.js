@@ -71,9 +71,9 @@ export default class Spotify {
     return await this.signUrls(refinedList);
   }
 
-  readDynamo = (args) => {
+  readDynamoMusicTable = (args) => {
     const genre = args.genre;
-
+    const sortKey = args.sortKey;
     let params = {
       KeyConditionExpression: "genre = :v1" ,
       ExpressionAttributeValues: {
@@ -88,9 +88,9 @@ export default class Spotify {
     //to check and see that the specified genre has a sortkey that begins with the passed in sort key
     //then assign the needed variables to parse since back to back #'s cause errors
     //this allows all queries to use this function by slowly narrowing sortkey scope
-    if (args.sortKey){
+    if (sortKey){
       params.KeyConditionExpression = "genre = :v1 and begins_with(#aas,:v2)"
-      params.ExpressionAttributeValues[":v2"] = {S: args.sortKey};
+      params.ExpressionAttributeValues[":v2"] = {S: sortKey};
       params.ExpressionAttributeNames = {
         "#aas":"artist#album#song"
       };
@@ -103,7 +103,7 @@ export default class Spotify {
     
   }
   getArtistsByGenre = async(args) => {
-    console.log(await this.readDynamo(args))
+    console.log(await this.readDynamoMusicTable(args))
   }
   getAlbumByArtist = async(args) => {
     
