@@ -8,6 +8,11 @@ export default class Spotify {
       apiVersion: '2006-03-01',
       params: {Bucket: bucketName}
     });
+
+    this.ddb = new AWS.DynamoDB({
+      region: 'us-east-1',
+      apiVersion: '2012-08-10'
+    });
   }
 
   listObjects = async(args) => {
@@ -41,7 +46,7 @@ export default class Spotify {
       console.error(e);
     })
     return res
-    }
+  }
 
   buildReturnObject = (key, url) => {
     let split = key.split('/')
@@ -50,13 +55,11 @@ export default class Spotify {
     resObj.key = key
     resObj.url = url
     resObj.name = split[2]
-    resObj.album = split[1]
-    resObj.artist = split[0]
 
     return resObj
   }
 
-  getSongs = async(args) => {
+  getSong = async(args) => {
     const objectList = await this.listObjects(args);
     let refinedList = [];
 
@@ -65,6 +68,19 @@ export default class Spotify {
     })
     
     return await this.signUrls(refinedList);
+  }
+
+  getGenres = async(args) => {
+    
+  }
+  getArtistsByGenre = async(args) => {
+
+  }
+  getAlbumByArtist = async(args) => {
+    
+  }
+  getSongsByAlbum = async(args) => {
+    
   }
 
 }
