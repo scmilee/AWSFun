@@ -7,10 +7,14 @@ const { dialog } = require('electron').remote
 export default class Spotify {
   constructor (bucketName) {
     this.bucketName = bucketName + "/";
-    console.log(this.bucketName)
     this.bucket = new AWS.S3({
       apiVersion: '2006-03-01',
       params: {Bucket: bucketName}
+    });
+
+    this.ddb = new AWS.DynamoDB({
+      region: 'us-east-1',
+      apiVersion: '2012-08-10'
     });
   }
 
@@ -40,12 +44,11 @@ export default class Spotify {
       for (const fileName of files) {
         const subPath = path.join(parentPath, fileName);
         const subBaseKey = path.join(baseKey,fileName)
-        console.log(subBaseKey, 'subbasekey ');
         
         if (fs.lstatSync(subPath).isDirectory()) {
           this.directoryCheck(subPath, subBaseKey);
         }
-        else{
+        else if(fileName !== '.DS_Store'){ //cuz screw ds store
           this.upload(subPath, subBaseKey);
         }
       }
@@ -53,6 +56,8 @@ export default class Spotify {
   }
 
   upload = async(path,key) => {
+    let lol = await this.dynamoUpload(key)
+
     fs.readFile(path, (err,data)=>{
       if (err) throw err;
 
@@ -64,26 +69,33 @@ export default class Spotify {
         if (err) {
           console.log(err)
         }
-        alert('Successfully uploaded stuff.');
+        console.log('Successfully uploaded stuff.');
         return data
       });
-    }) 
+    })
+    
 
   }
-  //woops didn't need to write this
-  rename = async(OLD_KEY, NEW_KEY) => {
-    
-    this.bucket.copyObject({
-      CopySource: `${this.bucketName}${OLD_KEY}`, 
-      Key: NEW_KEY
-    }).promise()
-    .then(() => 
-      this.bucket.deleteObject({
-        Key: OLD_KEY
-      }).promise()
-    )
-    .catch((e) => console.error(e))
+  
+  dynamoUpload = (key) => {
+    console.log(key)
+    const musicEntryDetails = key.split('/')
+    const artistAlbumSong = musicEntryDetails.slice(1).join('#')
+    const params = {
+      Item: {
+       "genre": {
+         S: musicEntryDetails[0]
+        }, 
+       "artist#album#song": {
+         S: artistAlbumSong
+        }
+      },
+      TableName: "music"
+     };
+     return this.ddb.putItem(params).promise()  
   }
+
+
 
    
 
