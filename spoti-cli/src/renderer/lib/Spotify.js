@@ -56,7 +56,7 @@ export default class Spotify {
   }
 
   upload = async(path,key) => {
-    let lol = await this.dynamoUpload(key)
+    await this.dynamoUpload(key)
 
     fs.readFile(path, (err,data)=>{
       if (err) throw err;
@@ -73,14 +73,12 @@ export default class Spotify {
         return data
       });
     })
-    
-
   }
   
   dynamoUpload = (key) => {
-    console.log(key)
     const musicEntryDetails = key.split('/')
     const artistAlbumSong = musicEntryDetails.slice(1).join('#')
+
     const params = {
       Item: {
        "genre": {
@@ -94,10 +92,6 @@ export default class Spotify {
      };
      return this.ddb.putItem(params).promise()  
   }
-
-
-
-   
 
 }
 
