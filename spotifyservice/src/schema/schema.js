@@ -1,12 +1,12 @@
 const { buildSchema } = require('graphql');
 
-const schema = buildSchema(`
+export const schema = buildSchema(`
     type Query {
         genres: [Genre]
         artistsByGenre(genre: String!): [Artist]
-        albumByArtist(artist: String!): [Album]
-        songsByAlbum(album: String!): [Song]
-        song(title: String!): [SongUrl]
+        albumByArtist(genre: String!, sortKey: String!): [Album]
+        songsByAlbum(genre: String!, sortKey: String!): [Song]
+        song(genre: String!, sortKey: String!): [SongUrl]
     }
     type Genre {
         name: String!
@@ -29,5 +29,3 @@ const schema = buildSchema(`
     },
 
 `);
-
-export default schema;
