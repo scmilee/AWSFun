@@ -6,18 +6,18 @@ export const schema = buildSchema(`
         artistsByGenre(genre: String!): [Artist]
         albumByArtist(genre: String!, sortKey: String!): [Album]
         songsByAlbum(genre: String!, sortKey: String!): [Song]
-        song(genre: String!, sortKey: String!): [SongUrl]
+        song(genre: String!, sortKey: String!): SongUrl
     }
     type Genre {
         name: String!
     },
     type Artist {
         name: String!,
-        albums: [String]!
+        albums: [String]
     },
     type Album {
         name: String!,
-        albums: [String]!
+        songs: [String]
     },
     type Song {
         name: String!
