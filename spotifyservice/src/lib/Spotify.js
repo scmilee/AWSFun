@@ -12,41 +12,7 @@ export default class Spotify {
     this.ddb = new AWS.DynamoDB({
       region: 'us-east-1',
       apiVersion: '2012-08-10',
-      
     });
-  }
-
-  listObjects = async(args) => {
-    return new Promise(resolve => {
-      this.bucket.listObjects({}, function(err, data) {
-        if (err) console.log(err, err.stack); 
-        else{
-          resolve( data)
-        }
-      });
-    });
-  }
-
-  signUrls = async(data) => {
-    const urls = data.map( object => {
-      return new Promise(resolve => {
-
-        const params = {Key: object.Key}
-        this.bucket.getSignedUrl('getObject', params, (err,url) => {
-          if(err) console.log(err);
-
-          const resObj = this.buildReturnObject(object.Key,url)
-
-          resolve(resObj);
-        })
-      })
-    })
-
-    const res = await Promise.all(urls)
-    .catch(e => {
-      console.error(e);
-    })
-    return res
   }
 
   buildReturnObject = (key, url) => {
@@ -61,14 +27,16 @@ export default class Spotify {
   }
 
   getSong = async(args) => {
-    const objectList = await this.listObjects(args);
-    let refinedList = [];
+    let key = args.sortKey.split('#')
+    key.unshift(args.genre)
+    key = key.join('/')
 
-    objectList.Contents.map(object => {
-      if (object.Key.endsWith('.mp3'))  refinedList.push(object)
+    return new Promise(resolve => {
+      this.bucket.getSignedUrl('getObject', {Key: key}, (err,url) => {
+        const resObj = this.buildReturnObject(key,url)
+        resolve(resObj) 
+      })
     })
-    
-    return await this.signUrls(refinedList);
   }
 
   readDynamoMusicTable = (args) => {
@@ -90,7 +58,7 @@ export default class Spotify {
     //this allows all queries to use this function by slowly narrowing sortkey scope
     if (sortKey){
       params.KeyConditionExpression = "genre = :v1 and begins_with(#aas,:v2)"
-      params.ExpressionAttributeValues[":v2"] = {S: sortKey};
+      params.ExpressionAttributeValues[":v2"] = { S: sortKey };
       params.ExpressionAttributeNames = {
         "#aas":"artist#album#song"
       };
@@ -99,17 +67,52 @@ export default class Spotify {
     return this.ddb.query(params).promise()
   }
 
-  getGenres = async(args) => {
+  getGenres = async() => {
+    const allEntries = await this.ddb.scan({TableName: "music"}).promise()
     
+    const allGenres = allEntries.Items.map((genreObject)=> {
+      return genreObject['genre'].S
+    })
+    const uniqueGenres = [...new Set(allGenres)].map(genre => {
+      return {name: genre}
+    })
+
+    return uniqueGenres
   }
+
   getArtistsByGenre = async(args) => {
-    console.log(await this.readDynamoMusicTable(args))
+    const data = await this.readDynamoMusicTable(args);
+    
+    const allArtists = data.Items.map((genreObject)=> {
+      return genreObject['artist#album#song'].S.split('#')[1]
+    })
+    const uniqueArtists = [...new Set(allArtists)].map(albumName => {
+      return {name: albumName}
+    })
+
+    return uniqueArtists
   }
+
   getAlbumByArtist = async(args) => {
+    const data = await this.readDynamoMusicTable(args);
     
+    const allAlbums = data.Items.map((genreObject)=> {
+      return genreObject['artist#album#song'].S.split('#')[1]
+    })
+    const uniqueAlbums = [...new Set(allAlbums)].map(albumName => {
+      return {name: albumName}
+    })
+
+    return uniqueAlbums
   }
+
   getSongsByAlbum = async(args) => {
-    
+    const data = await this.readDynamoMusicTable(args);
+  
+    const songs = data.Items.map((genreObject)=> {
+      return {name : genreObject['artist#album#song'].S.split('#')[2]}
+    })
+    return songs
   }
 
 }
