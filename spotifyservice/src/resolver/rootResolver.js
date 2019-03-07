@@ -18,10 +18,17 @@ const getSong = async(args) => {
     return await spotty.getSong(args); 
 }
 
+const saveUser = async(args) => {
+    let id,name,email
+    ({id,name,email } = args)
+    return "200 boi"
+}
+
 export const root = {
     genres: getGenres,
     artistsByGenre: getArtistsByGenre,
     albumByArtist: getAlbumByArtist,
     songsByAlbum: getSongsByAlbum,
     song: getSong,
+    saveUser: saveUser
 };
