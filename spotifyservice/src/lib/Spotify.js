@@ -84,7 +84,7 @@ export default class Spotify {
     const data = await this.readDynamoMusicTable(args);
     
     const allArtists = data.Items.map((genreObject)=> {
-      return genreObject['artist#album#song'].S.split('#')[1]
+      return genreObject['artist#album#song'].S.split('#')[0]
     })
     const uniqueArtists = [...new Set(allArtists)].map(albumName => {
       return {name: albumName}
