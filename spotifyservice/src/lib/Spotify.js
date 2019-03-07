@@ -115,5 +115,24 @@ export default class Spotify {
     return songs
   }
 
+  saveUser = async(id,name,email)=> {
+    const params = {
+      Item: {
+        "id": {
+         S: id
+        },
+        "name": {
+          S: name
+        },
+        "email": {
+          S: email
+        }
+        
+      },
+      TableName: "user"
+     };
+     return this.ddb.putItem(params).promise()  
+  }
+
 }
 
