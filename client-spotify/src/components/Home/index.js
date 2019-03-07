@@ -1,7 +1,10 @@
 import React from 'react';
 import Genres from "../Genres"
+import {withAuthorization} from '../Session'
 
 const Home = (props) => (
    <Genres {...props}/>
 );
-export default Home
+
+const condition = authUser => !!authUser;
+export default withAuthorization(condition)(Home);

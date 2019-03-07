@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import 'bulma'
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
+import Firebase, { FirebaseContext } from './components/Firebase';
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql"
@@ -16,7 +17,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <FirebaseContext.Provider value={new Firebase()}>
+      <App/>
+    </FirebaseContext.Provider>
   </ApolloProvider>,
     document.getElementById('root'),
   );
