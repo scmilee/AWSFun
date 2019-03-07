@@ -1,30 +1,7 @@
 import React from 'react';
-import Catagory from '../cattyboi/cattyboi'
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-
-const GET_SONGS = gql`
-{
-   songs {
-      key
-      name
-      album
-      artist
-      url
-    }
-}
-`;
+import Genres from "../Genres"
 
 const Home = (props) => (
-   <Query query={GET_SONGS}>
-   {({ loading, error, data }) => {
-      if (loading) return "Loading...";
-      if (error) return `Error! ${error.message}`
-      
-      return(
-         <Catagory data={data} {...props}/>
-      );
-   }}
-   </Query>
+   <Genres {...props}/>
 );
 export default Home

@@ -11,6 +11,7 @@ import Account from '../Account';
 
 
 import * as ROUTES from '../../constants/routes';
+import Artists from '../Artist';
 
 
 const App = () => (
@@ -22,6 +23,7 @@ const App = () => (
       <Route path={ROUTES.SIGN_IN} component={SignInPage} /> */}
       <Route path={ROUTES.ACCOUNT} component={Account} />
       <Route path={ROUTES.HOME} component={HomePage} />
+      <Route name="artists" path={ROUTES.ARTISTS_BY_GEBRE} component={Artists} />
     </div>
   </Router>
 )
