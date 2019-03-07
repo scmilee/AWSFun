@@ -19,9 +19,15 @@ const getSong = async(args) => {
 }
 
 const saveUser = async(args) => {
-    let id,name,email
+    let id,name,email,status
     ({id,name,email } = args)
-    return "200 boi"
+    try {  
+        await spotty.saveUser(id,name,email);
+        status = "200 baby"
+    } catch (error) {
+        status = "500 oh no"
+    }
+    return status
 }
 
 export const root = {
