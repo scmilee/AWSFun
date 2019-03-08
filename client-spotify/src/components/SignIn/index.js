@@ -48,8 +48,7 @@ class SignInFormBase extends Component {
 
       this.props.history.push(ROUTES.HOME);
       this.setState({ ...INITIAL_STATE });
-      // var token = result.credential.accessToken;
-      // var user = result.user;
+      
     }).catch(error => {
       this.setState({ error });
     });

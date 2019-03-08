@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query ,withApollo} from "react-apollo";
 import {
     Link
   } from 'react-router-dom';
-import Artist from '../Artist'
-
 
 class Genre extends Component {
   constructor(props) {
     super(props);
-    
+    this.client = this.props.client
+
     this.state = {
       currentgenre: null,
       loaded: false,
@@ -20,6 +19,7 @@ class Genre extends Component {
   }
 
   componentDidMount() {
+    this.saveUser(this.props.firebase.auth.currentUser);
     this.setState({
         genres: this.props.data.genres,
         loaded: true
@@ -79,6 +79,24 @@ class Genre extends Component {
   setGenre = (key) => {  
     this.setState({currentgenre: key},this.forceUpdate())
   }
+
+  saveUser = (user) => {
+    console.log(user)
+    this.client.query({
+      query: gql`
+      query saveUser($id: String!, $name: String!, $email: String!) {
+        saveUser(id: $id, name: $name, email: $email) 
+     }`,
+     variables: {
+       id: user.uid,
+       name: user.displayName || 'not provided',
+       email: user.email
+     }
+    }).then(result => {
+      console.log(result)
+    })
+
+  }
 }
 
 const GET_GENRES = gql`
@@ -90,18 +108,18 @@ const GET_GENRES = gql`
 `;
 
 const genrePage = (props) => {
-    return (
-        <Query query={GET_GENRES}>
-        {({ loading, error, data }) => {
-           if (loading) return "Loading...";
-           if (error) return `Error! ${error.message}`
-           
-           return(
-              <Genre data={data} {...props}/>
-           );
-        }}
-        </Query>
-    )
+  return (
+    <Query query={GET_GENRES}>
+    {({ loading, error, data }) => {
+       if (loading) return "Loading...";
+       if (error) return `Error! ${error.message}`
+       
+       return(
+          <Genre data={data} {...props}/>
+       );
+    }}
+    </Query>
+  )
 }
 
-export default genrePage;
+export default withApollo(genrePage);

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import { compose } from 'recompose';
@@ -20,7 +19,7 @@ const INITIAL_STATE = {
     passwordOne: '',
     passwordTwo: '',
     error: null,
-  };
+};
 
 class SignUpFormBase extends Component {
   constructor(props) {
@@ -29,7 +28,7 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+    const { email, passwordOne } = this.state;
     event.preventDefault();
     this.props.firebase
       .createUserWithEmailAndPassword(email, passwordOne)
@@ -51,8 +50,6 @@ class SignUpFormBase extends Component {
 
     this.props.firebase.signInWithPopup(provider).then((result) => {
       
-      // var user = result.user;
-
       this.props.history.push(ROUTES.HOME);
       this.setState({ ...INITIAL_STATE });
     }).catch(error => {
