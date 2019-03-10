@@ -28,6 +28,7 @@ export default class Spotify {
         messages.Messages.map(async(message) => {
           const attributes = message.MessageAttributes;
           console.table(attributes)
+          console.log(attributes.song)
           const deleteParams = {
             QueueUrl: 'https://sqs.us-east-1.amazonaws.com/843984047001/reporting',
             ReceiptHandle: message.ReceiptHandle
