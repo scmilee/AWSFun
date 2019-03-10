@@ -8,6 +8,7 @@ export const schema = buildSchema(`
         songsByAlbum(genre: String!, sortKey: String!): [Song]
         song(genre: String!, sortKey: String!): SongUrl
         saveUser(id: String!, name: String!, email: String!): String
+        play(artist: String!, album: String!, song: String!): String
     }
     type Genre {
         name: String!

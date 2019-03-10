@@ -30,11 +30,24 @@ const saveUser = async(args) => {
     return status
 }
 
+const play = async(args) => {
+    let artist, album, song, status
+    ({artist,album,song } = args)
+    try {  
+        await spotty.logPlay(artist, album, song);
+        status = "200 baby"
+    } catch (error) {
+        status = "500 oh no"
+    }
+    return status
+}
+
 export const root = {
     genres: getGenres,
     artistsByGenre: getArtistsByGenre,
     albumByArtist: getAlbumByArtist,
     songsByAlbum: getSongsByAlbum,
     song: getSong,
-    saveUser: saveUser
+    saveUser: saveUser,
+    play: play
 };

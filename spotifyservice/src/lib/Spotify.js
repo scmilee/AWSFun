@@ -13,6 +13,11 @@ export default class Spotify {
       region: 'us-east-1',
       apiVersion: '2012-08-10',
     });
+
+    this.sqs = new AWS.SQS({
+      region: 'us-east-1',
+      apiVersion: '2012-11-05'
+    });
   }
 
   buildReturnObject = (key, url) => {
@@ -127,11 +132,34 @@ export default class Spotify {
         "email": {
           S: email
         }
-        
       },
       TableName: "user"
      };
      return this.ddb.putItem(params).promise()  
+  }
+
+  logPlay = async(artist, album, song)=> {
+    
+    var params = {
+      MessageBody: 'Logging for dat play',
+      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/843984047001/reporting	',
+      DelaySeconds: 0,
+      MessageAttributes: {
+        'artist': {
+          DataType: 'String',
+          StringValue: artist
+        },
+        'album': {
+          DataType: 'String',
+          StringValue: album
+        },
+        'song': {
+          DataType: 'String',
+          StringValue: song
+        }
+      }
+    }
+    return this.sqs.sendMessage(params).promise();
   }
 
 }
