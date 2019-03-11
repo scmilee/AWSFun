@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
+import {
+  Link
+} from 'react-router-dom';
 
 class Artist extends Component {
   constructor(props) {
     super(props);
-    
     this.state = {
+      genre: props.location.state.genre,
       currentArtist: null,
       loaded: false,
       artists: []
@@ -59,7 +62,7 @@ class Artist extends Component {
         return (
           <div className='level'key={i}>
             <li className='is-info button'id= {key} onClick={() => this.setArtist(artists[key])}>
-              {artists[key].name}  
+              <Link to={{ pathname: '/albums-by-artist', state: { sortKey: artists[key].name, genre: this.state.genre } }}>{artists[key].name} </Link> 
             </li>
           </div>
         )
