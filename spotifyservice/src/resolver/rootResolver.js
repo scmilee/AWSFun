@@ -45,7 +45,7 @@ const play = async(args) => {
 export const root = {
     genres: getGenres,
     artistsByGenre: getArtistsByGenre,
-    albumByArtist: getAlbumByArtist,
+    albumsByArtist: getAlbumByArtist,
     songsByAlbum: getSongsByAlbum,
     song: getSong,
     saveUser: saveUser,

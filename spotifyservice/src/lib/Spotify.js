@@ -113,7 +113,6 @@ export default class Spotify {
 
   getSongsByAlbum = async(args) => {
     const data = await this.readDynamoMusicTable(args);
-  
     const songs = data.Items.map((genreObject)=> {
       return {name : genreObject['artist#album#song'].S.split('#')[2]}
     })

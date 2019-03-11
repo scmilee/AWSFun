@@ -4,7 +4,7 @@ export const schema = buildSchema(`
     type Query {
         genres: [Genre]
         artistsByGenre(genre: String!): [Artist]
-        albumByArtist(genre: String!, sortKey: String!): [Album]
+        albumsByArtist(genre: String!, sortKey: String!): [Album]
         songsByAlbum(genre: String!, sortKey: String!): [Song]
         song(genre: String!, sortKey: String!): SongUrl
         saveUser(id: String!, name: String!, email: String!): String
