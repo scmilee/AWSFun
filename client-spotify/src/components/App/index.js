@@ -13,8 +13,9 @@ import SignUpPage from '../SignUp'
 
 import {withAuthentication} from '../Session'
 import * as ROUTES from '../../constants/routes';
-import Artists from '../Artist';
-
+import Artists from '../Artists';
+import Albums from '../Albums';
+import Songs from '../Songs';
 
 const App = () => (
   <Router>
@@ -26,6 +27,8 @@ const App = () => (
       <Route path={ROUTES.ACCOUNT} component={Account} />
       <Route path={ROUTES.HOME} component={HomePage} />
       <Route name="artists" path={ROUTES.ARTISTS_BY_GEBRE} component={Artists} />
+      <Route name="albums" path={ROUTES.ALBUMS_BY_ARTIST} component={Albums} />
+      <Route name="songs" path={ROUTES.SONGS_BY_ALBUM} component={Songs} />
     </div>
   </Router>
 )

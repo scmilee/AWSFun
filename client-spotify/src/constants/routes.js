@@ -5,3 +5,5 @@ export const HOME = '/home';
 export const ACCOUNT = '/account';
 export const PASSWORD_FORGET = '/pw-forget';
 export const ARTISTS_BY_GEBRE = '/artists-by-genre';
+export const ALBUMS_BY_ARTIST = '/albums-by-artist';
+export const SONGS_BY_ALBUM = '/songs-by-album';

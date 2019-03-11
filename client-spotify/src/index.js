@@ -9,7 +9,7 @@ import { ApolloProvider } from "react-apollo";
 import Firebase, { FirebaseContext } from './components/Firebase';
 
 const client = new ApolloClient({
-  uri: "http://ec2-18-212-49-140.compute-1.amazonaws.com:3000/graphql"
+  uri: "http://localhost:3000/graphql"
 });
 
 ReactDOM.render(
